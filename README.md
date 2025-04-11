@@ -20,3 +20,4 @@ Banco de dados que relaciona as contribuições de cada fonte de energia de um p
 5.[Informações sobre energia oriunda de hidrelétricas](https://ourworldindata.org/grapher/hydro-share-energy) <br>
 6.[Informações sobre energia oriunda de gás natural](https://ourworldindata.org/grapher/gas-share-energy) <br>
 8.[Informações sobre emissão de gases do efeito estufa](https://ourworldindata.org/grapher/per-capita-ghg-emissions)
+9.[Informações sobre a população de cada país](https://data.worldbank.org/indicator/SP.POP.TOTL?end=2023&most_recent_year_desc=false&start=1960&view=chart)
