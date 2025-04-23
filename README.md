@@ -1,8 +1,12 @@
 # matriz-energetica
 Banco de dados que relaciona as contribuições de cada fonte de energia de um país à sua emissão de gases do efeito estufa
 
+## Modelo Conceitual
+![Modelo Conceitual](./assets/img1.jpg)
+
 ## Modelo Relacional
-![Modelo Relacional](./assets/img1.jpg)
+![Modelo Relacional](./assets/img3.png)
+
 
 ## Possíveis relações
 1. Emissões de Gases do efeito estufa por quantidade por x (mil, milhão, etc) de habitantes em um período específico
@@ -19,5 +23,5 @@ Banco de dados que relaciona as contribuições de cada fonte de energia de um p
 4.[Informações sobre energia oriundo de carvão](https://ourworldindata.org/grapher/coal-energy-share) <br>
 5.[Informações sobre energia oriunda de hidrelétricas](https://ourworldindata.org/grapher/hydro-share-energy) <br>
 6.[Informações sobre energia oriunda de gás natural](https://ourworldindata.org/grapher/gas-share-energy) <br>
-8.[Informações sobre emissão de gases do efeito estufa](https://ourworldindata.org/grapher/per-capita-ghg-emissions)
-9.[Informações sobre a população de cada país](https://data.worldbank.org/indicator/SP.POP.TOTL?end=2023&most_recent_year_desc=false&start=1960&view=chart)
+7.[Informações sobre emissão de gases do efeito estufa](https://ourworldindata.org/grapher/per-capita-ghg-emissions) <br>
+8.[Informações sobre a população de cada país](https://data.worldbank.org/indicator/SP.POP.TOTL?end=2023&most_recent_year_desc=false&start=1960&view=chart)

@@ -6,7 +6,7 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS public.consumo_anual
 (
     id_consumo integer NOT NULL,
-    id_pais integer NOT NULL,
+    id_paises integer NOT NULL,
     ano integer NOT NULL,
     porcentagem integer NOT NULL,
     tipo_energia integer NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS public.continente
 CREATE TABLE IF NOT EXISTS public.emissao_g_efeito_estufa
 (
     id_emissao integer NOT NULL,
-    id_pais integer NOT NULL,
+    id_paises integer NOT NULL,
     ano integer NOT NULL,
     quantidade_emitida bigint NOT NULL,
     CONSTRAINT emissao_g_efeito_estufa_pkey PRIMARY KEY (id_emissao)
@@ -36,27 +36,27 @@ CREATE TABLE IF NOT EXISTS public.fonte_energia
     CONSTRAINT fonte_energia_pkey PRIMARY KEY (id_fonte_energia)
 );
 
-CREATE TABLE IF NOT EXISTS public.pais
+CREATE TABLE IF NOT EXISTS public.paises
 (
-    id_pais integer NOT NULL,
+    id_paises integer NOT NULL,
     nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
     fundacao integer NOT NULL,
     continente integer NOT NULL,
-    CONSTRAINT pais_pkey PRIMARY KEY (id_pais)
+    CONSTRAINT paises_pkey PRIMARY KEY (id_paises)
 );
 
 CREATE TABLE IF NOT EXISTS public.populacao
 (
     id_pop integer NOT NULL,
-    id_pais integer NOT NULL,
+    id_paises integer NOT NULL,
     ano integer NOT NULL,
     quantidade_hab integer NOT NULL,
     CONSTRAINT populacao_pkey PRIMARY KEY (id_pop)
 );
 
 ALTER TABLE IF EXISTS public.consumo_anual
-    ADD CONSTRAINT consumo_anual_id_pais_fkey FOREIGN KEY (id_pais)
-    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ADD CONSTRAINT consumo_anual_id_paises_fkey FOREIGN KEY (id_paises)
+    REFERENCES public.paises (id_paises) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -71,15 +71,15 @@ ALTER TABLE IF EXISTS public.consumo_anual
 
 
 ALTER TABLE IF EXISTS public.emissao_g_efeito_estufa
-    ADD CONSTRAINT emissao_g_efeito_estufa_id_pais_fkey FOREIGN KEY (id_pais)
-    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ADD CONSTRAINT emissao_g_efeito_estufa_id_paises_fkey FOREIGN KEY (id_paises)
+    REFERENCES public.paises (id_paises) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public.pais
-    ADD CONSTRAINT pais_continente_fkey FOREIGN KEY (continente)
+ALTER TABLE IF EXISTS public.paises
+    ADD CONSTRAINT paises_continente_fkey FOREIGN KEY (continente)
     REFERENCES public.continente (id_continente) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
@@ -87,8 +87,8 @@ ALTER TABLE IF EXISTS public.pais
 
 
 ALTER TABLE IF EXISTS public.populacao
-    ADD CONSTRAINT populacao_id_pais_fkey FOREIGN KEY (id_pais)
-    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ADD CONSTRAINT populacao_id_paises_fkey FOREIGN KEY (id_paises)
+    REFERENCES public.paises (id_paises) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
