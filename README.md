@@ -2,10 +2,10 @@
 Banco de dados que relaciona as contribuições de cada fonte de energia de um país à sua emissão de gases do efeito estufa
 
 ## Modelo Conceitual
-![Modelo Conceitual](./assets/img1.jpg)
+![Modelo Conceitual](./assets/modelo_conceitual.jpg)
 
 ## Modelo Relacional
-![Modelo Relacional](./assets/img3.png)
+![Modelo Relacional](./assets/modelo_relacional.png)
 
 
 ## Possíveis relações
