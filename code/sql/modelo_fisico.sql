@@ -66,6 +66,14 @@ CREATE TABLE IF NOT EXISTS public.producao_energia
     CONSTRAINT producao_energia_pkey PRIMARY KEY (fk_prod_energia_pais, ano)
 );
 
+CREATE TABLE IF NOT EXISTS public.emissao_gee
+(
+    fk_gee_pais character(3) NOT NULL,
+    ano integer NOT NULL,
+    emissao real NOT NULL,
+    PRIMARY KEY (fk_gee_pais, ano)
+);
+
 ALTER TABLE IF EXISTS public.anomalia_temperatura
     ADD CONSTRAINT anomalia_temperatura_fk_anomalia_temp_pais_fkey FOREIGN KEY (fk_anomalia_temp_pais)
     REFERENCES public.pais (id_pais) MATCH SIMPLE
@@ -110,6 +118,13 @@ ALTER TABLE IF EXISTS public.populacao_anual
 
 ALTER TABLE IF EXISTS public.producao_energia
     ADD CONSTRAINT producao_energia_fk_prod_energia_pais_fkey FOREIGN KEY (fk_prod_energia_pais)
+    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.emissao_gee
+    ADD FOREIGN KEY (fk_gee_pais)
     REFERENCES public.pais (id_pais) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
