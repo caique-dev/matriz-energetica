@@ -3,113 +3,113 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public.pais
-(
-    id_pais integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    fk_pais_continente integer NOT NULL,
-    PRIMARY KEY (id_pais)
-);
-
-CREATE TABLE IF NOT EXISTS public.continente
-(
-    nome character varying(50) NOT NULL,
-    id_continente integer NOT NULL,
-    PRIMARY KEY (id_continente)
-);
-
-CREATE TABLE IF NOT EXISTS public.populacao_anual
-(
-    ano integer NOT NULL,
-    qntd_habitantes bigint NOT NULL,
-    fk_populacao_pais integer NOT NULL,
-    PRIMARY KEY (ano, fk_populacao_pais)
-);
-
-CREATE TABLE IF NOT EXISTS public.mortes_desastres_naturais
-(
-    ano integer NOT NULL,
-    fk_mortes_pais integer NOT NULL,
-    qntd_vidas integer NOT NULL,
-    PRIMARY KEY (ano, fk_mortes_pais)
-);
-
 CREATE TABLE IF NOT EXISTS public.anomalia_temperatura
 (
     ano integer NOT NULL,
-    fk_anomalia_temp_pais integer NOT NULL,
+    fk_anomalia_temp_pais character(3) NOT NULL,
     desvio_da_media real NOT NULL,
-    PRIMARY KEY (ano, fk_anomalia_temp_pais)
-);
-
-CREATE TABLE IF NOT EXISTS public.producao_energia
-(
-    ano integer NOT NULL,
-    fk_prod_energia_pais integer NOT NULL,
-    qntd_produzida bigint NOT NULL,
-    PRIMARY KEY (fk_prod_energia_pais, ano)
+    CONSTRAINT anomalia_temperatura_pkey PRIMARY KEY (ano, fk_anomalia_temp_pais)
 );
 
 CREATE TABLE IF NOT EXISTS public.consumo_anual
 (
     ano integer NOT NULL,
     fk_consumo_fonte_energia integer NOT NULL,
-    fk_consumo_pais integer NOT NULL,
-	porcentagem real NOT NULL CHECK (porcentagem >= 0 AND porcentagem <= 100),
-    PRIMARY KEY (ano, fk_consumo_fonte_energia, fk_consumo_pais)
+    fk_consumo_pais character(3) NOT NULL,
+    porcentagem real NOT NULL CHECK (porcentagem >= 0 AND porcentagem <= 100),
+    CONSTRAINT consumo_anual_pkey PRIMARY KEY (ano, fk_consumo_fonte_energia, fk_consumo_pais)
+);
+
+CREATE TABLE IF NOT EXISTS public.continente
+(
+    nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    id_continente character(2) NOT NULL,
+    CONSTRAINT continente_pkey PRIMARY KEY (id_continente)
 );
 
 CREATE TABLE IF NOT EXISTS public.fonte_energia
 (
     id_fonte_energia integer NOT NULL,
-    nome character varying(50) NOT NULL,
-    PRIMARY KEY (id_fonte_energia)
+    nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT fonte_energia_pkey PRIMARY KEY (id_fonte_energia)
 );
 
-ALTER TABLE IF EXISTS public.pais
-    ADD FOREIGN KEY (fk_pais_continente)
-    REFERENCES public.continente (id_continente) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+CREATE TABLE IF NOT EXISTS public.mortes_desastres_naturais
+(
+    ano integer NOT NULL,
+    fk_mortes_pais character(3) NOT NULL,
+    qntd_vidas integer NOT NULL,
+    CONSTRAINT mortes_desastres_naturais_pkey PRIMARY KEY (ano, fk_mortes_pais)
+);
 
+CREATE TABLE IF NOT EXISTS public.pais
+(
+    id_pais character(3) NOT NULL,
+    nome character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    fk_pais_continente character(2) NOT NULL,
+    CONSTRAINT pais_pkey PRIMARY KEY (id_pais)
+);
 
-ALTER TABLE IF EXISTS public.populacao_anual
-    ADD FOREIGN KEY (fk_populacao_pais)
-    REFERENCES public.pais (id_pais) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+CREATE TABLE IF NOT EXISTS public.populacao_anual
+(
+    ano integer NOT NULL,
+    qntd_habitantes bigint NOT NULL,
+    fk_populacao_pais character(3) NOT NULL,
+    CONSTRAINT populacao_anual_pkey PRIMARY KEY (ano, fk_populacao_pais)
+);
 
-
-ALTER TABLE IF EXISTS public.mortes_desastres_naturais
-    ADD FOREIGN KEY (fk_mortes_pais)
-    REFERENCES public.pais (id_pais) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
-
+CREATE TABLE IF NOT EXISTS public.producao_energia
+(
+    ano integer NOT NULL,
+    fk_prod_energia_pais character(3) NOT NULL,
+    qntd_produzida bigint NOT NULL,
+    CONSTRAINT producao_energia_pkey PRIMARY KEY (fk_prod_energia_pais, ano)
+);
 
 ALTER TABLE IF EXISTS public.anomalia_temperatura
-    ADD FOREIGN KEY (fk_anomalia_temp_pais)
-    REFERENCES public.pais (id_pais) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
-
-
-ALTER TABLE IF EXISTS public.producao_energia
-    ADD FOREIGN KEY (fk_prod_energia_pais)
+    ADD CONSTRAINT anomalia_temperatura_fk_anomalia_temp_pais_fkey FOREIGN KEY (fk_anomalia_temp_pais)
     REFERENCES public.pais (id_pais) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
 
 
 ALTER TABLE IF EXISTS public.consumo_anual
-    ADD FOREIGN KEY (fk_consumo_fonte_energia)
+    ADD CONSTRAINT consumo_anual_fk_consumo_fonte_energia_fkey FOREIGN KEY (fk_consumo_fonte_energia)
     REFERENCES public.fonte_energia (id_fonte_energia) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
 
 
 ALTER TABLE IF EXISTS public.consumo_anual
-    ADD FOREIGN KEY (fk_consumo_pais)
+    ADD CONSTRAINT consumo_anual_fk_consumo_pais_fkey FOREIGN KEY (fk_consumo_pais)
+    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.mortes_desastres_naturais
+    ADD CONSTRAINT mortes_desastres_naturais_fk_mortes_pais_fkey FOREIGN KEY (fk_mortes_pais)
+    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.pais
+    ADD CONSTRAINT pais_fk_pais_continente_fkey FOREIGN KEY (fk_pais_continente)
+    REFERENCES public.continente (id_continente) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.populacao_anual
+    ADD CONSTRAINT populacao_anual_fk_populacao_pais_fkey FOREIGN KEY (fk_populacao_pais)
+    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.producao_energia
+    ADD CONSTRAINT producao_energia_fk_prod_energia_pais_fkey FOREIGN KEY (fk_prod_energia_pais)
     REFERENCES public.pais (id_pais) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
