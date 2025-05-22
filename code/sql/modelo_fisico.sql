@@ -74,6 +74,14 @@ CREATE TABLE IF NOT EXISTS public.emissao_gee
     PRIMARY KEY (fk_gee_pais, ano)
 );
 
+CREATE TABLE IF NOT EXISTS public.pib
+(
+    fk_pib_pais character(3) NOT NULL,
+    ano integer NOT NULL,
+    valor real NOT NULL CHECK (valor >= 0),
+    PRIMARY KEY (fk_pib_pais, ano)
+);
+
 ALTER TABLE IF EXISTS public.anomalia_temperatura
     ADD CONSTRAINT anomalia_temperatura_fk_anomalia_temp_pais_fkey FOREIGN KEY (fk_anomalia_temp_pais)
     REFERENCES public.pais (id_pais) MATCH SIMPLE
@@ -125,6 +133,12 @@ ALTER TABLE IF EXISTS public.producao_energia
 
 ALTER TABLE IF EXISTS public.emissao_gee
     ADD FOREIGN KEY (fk_gee_pais)
+    REFERENCES public.pais (id_pais) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+ALTER TABLE IF EXISTS public.pib
+    ADD FOREIGN KEY (fk_pib_pais)
     REFERENCES public.pais (id_pais) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
