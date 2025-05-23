@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS public.producao_energia
 (
     ano integer NOT NULL,
     fk_prod_energia_pais character(3) NOT NULL,
-    qntd_produzida bigint NOT NULL,
+    qntd_produzida real NOT NULL,
     CONSTRAINT producao_energia_pkey PRIMARY KEY (fk_prod_energia_pais, ano)
 );
 
